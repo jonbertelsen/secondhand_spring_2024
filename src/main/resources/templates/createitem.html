@@ -22,6 +22,8 @@
 
     <textarea name="description" rows="4" placeholder="Indtast beskrivelse"></textarea>
 
+    <input type="number" name="price" min="0" max="100000"/>
+
     <input type="date" name="date"/>
 
     <select name="category">
@@ -38,5 +40,8 @@
 
 </form>
 
+<p>
+    <a class="linkbutton" href="index.html" th:href="@{/}" >Til forsiden</a>
+</p>
 </body>
 </html>

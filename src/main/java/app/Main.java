@@ -10,6 +10,7 @@ import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -36,14 +37,26 @@ public class Main
 
         app.get("/", ctx ->  index(ctx));
         app.get("/createitem", ctx -> ctx.render("createitem.html"));
+        app.post("/updateitem", ctx -> updateItem(ctx, connectionPool));
+    }
+
+    private static void updateItem(Context ctx, ConnectionPool connectionPool)
+    {
+        String title = ctx.formParam("title");
+        String description = ctx.formParam("description");
+        BigDecimal price = new BigDecimal(ctx.formParam("price"));
+        int categoryId = Integer.parseInt(ctx.formParam("category"));
+        LocalDate date = LocalDate.parse(ctx.formParam("date"));
+
+        ItemMapper.createItem(title, description, price, categoryId, connectionPool);
+        List<Item> itemList = ItemMapper.getAllItems(connectionPool);
+        ctx.attribute("itemList", itemList);
+        ctx.render("index.html");
     }
 
     public static void index(Context ctx)
     {
-        ctx.sessionAttribute("hej", "her er en tekst");
-
         Map<Integer, Category> categoryMap = CategoryMapper.getAllCategories(connectionPool);
-
         ctx.sessionAttribute("categoryMap", categoryMap);
 
         List<Item> itemList = ItemMapper.getAllItems(connectionPool);

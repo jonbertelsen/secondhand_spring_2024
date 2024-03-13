@@ -1,6 +1,5 @@
 package app.persistence;
 
-import app.Main;
 import app.entities.Item;
 
 import java.math.BigDecimal;
@@ -22,7 +21,7 @@ public class ItemMapper
         try (
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql);
-            )
+        )
         {
             ResultSet rs = ps.executeQuery();
             while (rs.next())
@@ -42,5 +41,33 @@ public class ItemMapper
             throw new RuntimeException(e);
         }
         return itemList;
+    }
+
+    private static BigDecimal parseMoneyValue(String moneyValue) {
+        // Remove currency symbol and any other non-numeric characters
+        moneyValue = moneyValue.replaceAll("[^\\d.]", "");
+        // Parse the string into a BigDecimal
+        return new BigDecimal(moneyValue);
+    }
+
+    public static void createItem(String title, String description, BigDecimal price, int categoryId, ConnectionPool connectionPool)
+    {
+        String sql = "INSERT INTO item (title, description, price, category_id) VALUES (?,?,?,?)";
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql);
+        )
+        {
+            ps.setString(1, title);
+            ps.setString(2, description);
+            ps.setBigDecimal(3, price);
+            ps.setInt(4, categoryId);
+            ps.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+
     }
 }
