@@ -11,11 +11,11 @@
 
 <img src="../public/images/secondhand.png" th:src="@{/images/secondhand.png}" width="25%"/>
 
-<h1>Welcome to the 2nd Hand Shop</h1>
+<h1 class="overskrift">Welcome to the 2nd Hand Shop</h1>
 
 <h2>All items for sale</h2>
 
-<table>
+<table class="itemtable">
     <thead>
     <tr>
         <th>id</th>
@@ -31,6 +31,10 @@
     </tr>
     </tbody>
 </table>
+
+<p>
+    <a class="linkbutton" href="createitem.html" th:href="@{/createitem}" >Sæt ny vare til salg</a>
+</p>
 
 </body>
 </html>

@@ -1,7 +1,48 @@
 /* Stylesheet for the application */
 
+html * {
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
 h1 {
     color: blue;
-    font-family: Arial, Helvetica, sans-serif;
     font-size: 3rem;
+}
+
+.linkbutton {
+    border: 1px solid black;
+    padding:7px;
+    border-radius: 5px;
+    background-color: darkgreen;
+    color: white;
+    text-decoration: none;
+}
+
+.linkbutton:hover {
+    background-color: lightgreen;
+    cursor: pointer;
+    color: black;
+}
+
+.itemtable {
+    border-collapse: collapse;
+}
+
+.itemtable tr, .itemtable td, .itemtable th {
+    border: 1px solid silver;
+    padding: 7px;
+}
+
+.create-item-form * {
+    font-size: 1.2rem;
+    padding: 7px;
+}
+
+.create-item-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }

@@ -1,6 +1,6 @@
 package app.persistence;
 
-import app.Main;
+import app.entities.Category;
 import app.entities.Item;
 
 import java.math.BigDecimal;
@@ -9,38 +9,39 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class ItemMapper
+public class CategoryMapper
 {
+    // TODO: Hent alle categories
 
-    public static List<Item> getAllItems(ConnectionPool connectionPool)
+    public static Map<Integer, Category> getAllCategories(ConnectionPool connectionPool)
     {
-        String sql = "SELECT * FROM item";
-        List<Item> itemList = new ArrayList<>();
+        String sql = "SELECT * FROM category";
+
+        Map<Integer, Category> categoryMap = new HashMap<>();
 
         try (
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql);
-            )
+        )
         {
             ResultSet rs = ps.executeQuery();
             while (rs.next())
             {
-                int itemId = rs.getInt("item_id");
-                String title = rs.getString("title");
-                String description = rs.getString("description");
-                BigDecimal price = rs.getBigDecimal("price");
                 int categoryId = rs.getInt("category_id");
-                int userId = rs.getInt("user_id");
-                Item item = new Item(itemId, title, description, price, categoryId, userId);
-                itemList.add(item);
+                String name = rs.getString("name");
+                Category category = new Category(categoryId, name);
+                categoryMap.put(categoryId, category);
             }
         }
         catch (SQLException e)
         {
             throw new RuntimeException(e);
         }
-        return itemList;
+        return categoryMap;
     }
+
 }

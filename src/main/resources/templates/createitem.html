@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<title>Frontpage</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+</head>
+
+<body>
+
+<img src="../public/images/secondhand.png" th:src="@{/images/secondhand.png}" width="80%"/>
+
+<h1 class="overskrift">Nå, så du har noget du vil sælge?</h1>
+
+<h2>All items for sale</h2>
+
+<form class="create-item-form" method="post">
+
+    <input type="text" name="title" placeholder="Indtast titel"/>
+
+    <textarea name="description" rows="4" placeholder="Indtast beskrivelse"></textarea>
+
+    <input type="date" name="date"/>
+
+    <select name="category">
+        <option>Vælg en kategori</option>
+        <option
+                th:each="category: ${session.categoryMap.values}"
+                th:value="${category.categoryId}"
+                th:text="${category.name + ' (' +  category.categoryId + ')'}"
+                value="1">Name
+        </option>
+    </select>
+
+    <button type="submit" formaction="/updateitem">Create new item</button>
+
+</form>
+
+</body>
+</html>
